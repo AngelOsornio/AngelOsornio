@@ -1,5 +1,8 @@
 // Contenido en ESPAÑOL. Edita este archivo para cambiar textos sin tocar el diseño.
 // La versión en inglés está en profile.en.ts (mismos campos, traducidos).
+//
+// La página principal (/) habla con clientes en lenguaje sencillo.
+// Lo técnico (stack, experiencia, todos los proyectos, certificaciones) vive en /perfil-tecnico.
 import cv from "@/assets/cv.pdf.asset.json";
 import photo from "@/assets/angel-osornio.webp";
 
@@ -10,7 +13,7 @@ export const SITE_URL = "https://angelosornio.lovable.app";
 export const profile = {
   name: "Angel Nahum Trejo Osornio",
   title: "Ingeniero en Ciberseguridad y Desarrollo de Software",
-  tagline: "Construyo software seguro: del código a la red.",
+  tagline: "Páginas web rápidas, seguras y hechas para tu negocio.",
   location: "Aguascalientes, MX · Disponible para proyectos",
   phone: "771 122 1326",
   email: "angelnahumtrejoosornio@gmail.com",
@@ -22,61 +25,53 @@ export const profile = {
   cv: cv.url,
   vcard: "/angel-osornio.vcf",
   languages: "Español (nativo) · Inglés C2 (Oxford)",
+  // Versión corta y sencilla (página principal).
   about:
-    "Soy estudiante de Ingeniería en Seguridad Informática y Desarrollo de Software en Global University (egreso en diciembre de 2026). Desarrollo aplicaciones web de punta a punta, desde la base de datos y el backend hasta el despliegue en producción, con la seguridad como parte del diseño y no como un agregado. He cofundado una startup de software, desarrollado plataformas SaaS en producción y realizado auditorías de seguridad siguiendo la metodología de un pentest profesional.",
-  stats: ["7 certificaciones", "8+ proyectos", "2° lugar Hidrotalent 2024"],
+    "Soy ingeniero en ciberseguridad y desarrollo de software. Ayudo a negocios y profesionistas a tener presencia en internet con páginas web que se ven bien, cargan rápido y están protegidas. Me encargo de todo, del diseño a la publicación, y te explico cada paso sin tecnicismos.",
+  // Versión técnica (perfil técnico).
+  aboutTech:
+    "Estudiante de Ingeniería en Seguridad Informática y Desarrollo de Software en Global University (egreso en diciembre de 2026). Desarrollo aplicaciones web de punta a punta, desde la base de datos y el backend hasta el despliegue en producción, con la seguridad como parte del diseño y no como un agregado. He cofundado una startup de software, desarrollado plataformas SaaS en producción y realizado auditorías de seguridad siguiendo la metodología de un pentest profesional.",
+  stats: ["8+ proyectos", "7 certificaciones", "2° lugar Hidrotalent 2024"],
 };
 
 // Palabras que se escriben y borran en el titular del inicio.
-export const heroWords = ["seguro", "a la medida", "que escala", "para tu negocio"];
+export const heroWords = ["para tu negocio", "que atraen clientes", "rápidas y seguras"];
 
-// Pasos de la sección interactiva "Cómo trabajo".
-export const workflow: { step: string; title: string; desc: string; cmd: string; output: string[] }[] = [
+// Servicios (página principal). Al tocar uno se abre WhatsApp con el mensaje listo.
+export type ServiceIcon = "globe" | "code" | "message" | "shield";
+export const services: { icon: ServiceIcon; title: string; desc: string }[] = [
+  { icon: "globe", title: "Páginas web", desc: "Una página profesional que muestra quién eres, qué ofreces y cómo contactarte. Se ve perfecta en celular." },
+  { icon: "code", title: "Sistemas a la medida", desc: "Reservas, citas, inventario o control de clientes: herramientas hechas para la forma en que trabaja tu negocio." },
+  { icon: "message", title: "Automatización con WhatsApp", desc: "Respuestas, recordatorios y seguimientos automáticos para que no se te escape ningún cliente." },
+  { icon: "shield", title: "Seguridad y mantenimiento", desc: "Tu página siempre actualizada, respaldada y protegida contra ataques." },
+];
+
+// Pasos de la sección interactiva "Cómo trabajo". "output" = lo que recibe el cliente.
+export const workflow: { step: string; title: string; desc: string; output: string[] }[] = [
   {
-    step: "Diagnóstico",
-    title: "Entiendo tu operación",
-    desc: "Antes de escribir código, mapeo tus procesos y definimos qué problema vamos a resolver.",
-    cmd: "analizar --negocio",
-    output: ["procesos mapeados", "requerimientos definidos", "alcance y tiempos acordados"],
+    step: "Platicamos",
+    title: "Me cuentas tu idea",
+    desc: "Hablamos de tu negocio, qué quieres lograr y a quién quieres llegar. Sin tecnicismos.",
+    output: ["propuesta clara", "precio y tiempos definidos"],
   },
   {
     step: "Diseño",
-    title: "Arquitectura con sentido",
-    desc: "Modelo de datos, arquitectura y un prototipo navegable para validar antes de construir.",
-    cmd: "disenar --arquitectura",
-    output: ["modelo de datos", "prototipo navegable", "control de acceso por roles"],
+    title: "Ves tu página antes de construirla",
+    desc: "Te muestro cómo se verá en computadora y en celular para ajustarla a tu gusto.",
+    output: ["diseño de tu página", "ajustes antes de construir"],
   },
   {
-    step: "Desarrollo",
-    title: "Entregas que puedes probar",
-    desc: "Construyo por entregas cortas: frontend, backend e integraciones como WhatsApp o pagos.",
-    cmd: "npm run build",
-    output: ["frontend + backend", "integraciones conectadas", "pruebas automatizadas"],
+    step: "Construcción",
+    title: "La hago realidad",
+    desc: "Programo tu página para que cargue rápido, se vea bien en cualquier celular y esté protegida.",
+    output: ["versión de prueba para revisar", "botón de WhatsApp y redes sociales", "seguridad incluida"],
   },
   {
-    step: "Seguridad",
-    title: "Auditoría antes de publicar",
-    desc: "Reviso el sistema como lo haría un atacante, siguiendo el OWASP Top 10.",
-    cmd: "audit --owasp-top-10",
-    output: ["inyección SQL: protegido", "XSS: protegido", "control de acceso: protegido"],
+    step: "Lanzamiento",
+    title: "Tu página en internet",
+    desc: "La publico con tu propio dominio y te acompaño después del lanzamiento.",
+    output: ["dominio propio (.com o .mx)", "candado de seguridad (https)", "apoyo después de publicar"],
   },
-  {
-    step: "Despliegue",
-    title: "En producción y vigilado",
-    desc: "Publicación en servidor propio con dominio, SSL y monitoreo, lista para crecer.",
-    cmd: "deploy --prod",
-    output: ["VPS + EasyPanel", "dominio y SSL", "monitoreo activo"],
-  },
-];
-
-export type ServiceIcon = "code" | "globe" | "database" | "shield" | "wrench" | "cpu";
-export const services: { icon: ServiceIcon; title: string; desc: string }[] = [
-  { icon: "code", title: "Creación de software", desc: "Sistemas a la medida, CRM/ERP y plataformas SaaS." },
-  { icon: "globe", title: "Páginas web", desc: "Sitios y aplicaciones web modernas, rápidas y responsive." },
-  { icon: "database", title: "Bases de datos", desc: "Diseño, modelado, migración y optimización." },
-  { icon: "shield", title: "Ciberseguridad", desc: "Pentesting web, auditorías y buenas prácticas OWASP." },
-  { icon: "wrench", title: "Mantenimiento", desc: "Soporte, actualización y despliegue de sistemas existentes." },
-  { icon: "cpu", title: "Hardware", desc: "Diagnóstico, configuración de equipos y redes." },
 ];
 
 export const stack: { group: string; items: string[] }[] = [
@@ -125,15 +120,16 @@ export type Project = {
   name: string;
   year?: string;
   categories: Category[];
-  desc: string;
+  desc: string; // descripción técnica (perfil técnico)
+  pitch?: string; // descripción sencilla; si existe, el proyecto aparece en la página principal
   tech: string[];
   demo?: string;
   code?: string;
 };
 export const projects: Project[] = [
-  { name: "Padelize", categories: ["Software", "Web"], desc: "SaaS para gestión de clubes de pádel con clientes, reservas y cobros, desplegado en producción.", tech: ["React", "TypeScript", "Supabase", "EasyPanel"], demo: "https://padelize.app/" },
-  { name: "Astra", categories: ["Software"], desc: "CRM/ERP con agenda y automatizaciones de WhatsApp.", tech: ["CRM/ERP", "WhatsApp"] },
-  { name: "SGA — Sistema de Gestión de Almacén", year: "2026", categories: ["Web"], desc: "Recepción, inventario y traspasos para Grupo Zeta / ZPremia.", tech: ["Angular 17", "Java 21", "Spring Boot 3", "SQL Server 2022", "Docker"] },
+  { name: "Padelize", categories: ["Software", "Web"], desc: "SaaS para gestión de clubes de pádel con clientes, reservas y cobros, desplegado en producción.", pitch: "Plataforma para clubes de pádel: sus clientes reservan cancha y pagan desde el celular.", tech: ["React", "TypeScript", "Supabase", "EasyPanel"], demo: "https://padelize.app/" },
+  { name: "Astra", categories: ["Software"], desc: "CRM/ERP con agenda y automatizaciones de WhatsApp.", pitch: "Sistema para negocios con agenda de citas y mensajes automáticos por WhatsApp.", tech: ["CRM/ERP", "WhatsApp"] },
+  { name: "SGA — Sistema de Gestión de Almacén", year: "2026", categories: ["Web"], desc: "Recepción, inventario y traspasos para Grupo Zeta / ZPremia.", pitch: "Sistema web para que una empresa controle su inventario y los movimientos de su almacén.", tech: ["Angular 17", "Java 21", "Spring Boot 3", "SQL Server 2022", "Docker"] },
   { name: "Auditoría de Seguridad — BadStore", year: "2026", categories: ["Seguridad"], desc: "Pentest académico: exposición de datos sensibles e inyección SQL que permitió extraer la base de usuarios y descifrar la contraseña de administrador.", tech: ["Kali Linux", "SQLmap", "OWASP Top 10"] },
   { name: "Clasificador de Imágenes con CNN", year: "2026", categories: ["IA"], desc: "Red neuronal convolucional con 92.6% de accuracy sobre Animals-10, con balanceo por undersampling.", tech: ["Python", "TensorFlow", "Keras"] },
   { name: "Registro de Métricas Lingüísticas", year: "2026", categories: ["Web"], desc: "Herramienta académica con datos anonimizados (UUID) conforme a la LFPDPPP y control de acceso por roles.", tech: ["React 18", "Node.js", "Express", "k3s", "Ansible"] },
@@ -158,7 +154,10 @@ export const certifications = [
 
 // Textos de la interfaz. En los títulos, la parte del medio va resaltada en verde.
 export const ui = {
-  nav: { "sobre-mi": "Sobre mí", servicios: "Servicios", experiencia: "Experiencia", proyectos: "Proyectos", formacion: "Formación", contacto: "Contacto" },
+  nav: {
+    servicios: "Servicios", proceso: "Cómo trabajo", proyectos: "Proyectos", "sobre-mi": "Sobre mí", contacto: "Contacto",
+    tech: "Perfil técnico", home: "Inicio", stack: "Stack", experiencia: "Experiencia", formacion: "Formación",
+  },
   skip: "Saltar al contenido",
   themeToLight: "Cambiar a modo claro",
   themeToDark: "Cambiar a modo oscuro",
@@ -167,38 +166,37 @@ export const ui = {
   contact: "Contactar",
   whatsappCta: "Escríbeme por WhatsApp",
   saveContact: "Guardar contacto",
-  heroLead: "Construyo software",
-  heroIntro: ["Soy", ", ingeniero en ciberseguridad y desarrollo de software. Creo aplicaciones web de punta a punta, con la seguridad como parte del diseño."],
+  heroLead: "Creo páginas web",
+  heroIntro: ["Soy", ". Diseño y desarrollo páginas web rápidas, seguras y fáciles de usar. Tú te enfocas en tu negocio; yo me encargo de la tecnología."],
   seeProjects: "Ver proyectos",
   remote: "Remoto",
-  scrollDown: "Bajar a Sobre mí",
   photoAlt: "Fotografía de",
   terminal: [
     { cmd: "whoami", out: "angel_trejo_osornio" },
-    { cmd: "cat rol.txt", out: "dev + sec · full stack" },
+    { cmd: "cat rol.txt", out: "páginas web · dev + sec" },
     { cmd: "status", out: "● disponible para proyectos" },
   ],
-  aboutEyebrow: "01 / sobre mí",
-  services: { eyebrow: "02 / servicios", title: ["Lo que puedo ", "construir contigo."], aside: "Elige un servicio y se abre WhatsApp con tu mensaje listo.", quote: "Cotizar", message: "Hola Angel, me interesa: " },
-  workflow: { eyebrow: "03 / cómo trabajo", title: ["Seguridad desde el diseño, ", "no como un agregado."], desc: "Así llevo cada proyecto de la idea a producción. Toca un paso para verlo.", tabs: "Pasos de trabajo", path: "~/tu-proyecto", step: "paso" },
-  stack: { eyebrow: "04 / stack", title: ["Herramientas con las que ", "construyo."], aside: "Del frontend a la infraestructura, con la seguridad en cada capa." },
-  experience: { eyebrow: "05 / experiencia", title: ["Dónde he ", "construido."], desc: "Startups, plataformas SaaS en producción y proyectos con empresas reales.", cv: "Descargar CV" },
-  projects: { eyebrow: "06 / proyectos", title: ["Proyectos que ", "ya funcionan."], aside: "Software en producción, auditorías de seguridad e inteligencia artificial.", filter: "Filtrar proyectos", all: "Todos", demo: "Ver demo", code: "Ver código" },
-  categories: { Web: "Web", Software: "Software", Seguridad: "Seguridad", IA: "IA" } as Record<Category, string>,
-  education: { eyebrow: "07 / formación", title: ["Formación y ", "certificaciones."], credly: "Ver credenciales en Credly" },
+  services: { eyebrow: "01 / servicios", title: ["En qué te ", "puedo ayudar."], aside: "Toca un servicio y se abre WhatsApp con tu mensaje listo.", quote: "Cotizar", message: "Hola Angel, me interesa: " },
+  workflow: { eyebrow: "02 / cómo trabajo", title: ["De tu idea a tu página, ", "paso a paso."], desc: "Así trabajamos juntos. Toca un paso para verlo.", tabs: "Pasos de trabajo", get: "Lo que recibes", step: "paso" },
+  projects: { eyebrow: "03 / proyectos", title: ["Proyectos que ", "ya funcionan."], more: "Ver todos en mi perfil técnico", demo: "Ver en vivo" },
+  about: { eyebrow: "04 / sobre mí", techTitle: "¿Eres reclutador o desarrollador?", techDesc: "Conoce mis herramientas, experiencia, proyectos y certificaciones.", techCta: "Ver perfil técnico", cv: "Descargar CV" },
   contactSection: {
-    eyebrow: "08 / contacto",
-    title: ["Construyamos algo ", "seguro", " juntos."],
-    desc: "Una primera conversación basta para entender tu proyecto y proponerte el camino más directo.",
-    emailTitle: "¿Prefieres correo?",
-    emailDesc: "Escríbeme directo o déjame tu mensaje en el formulario.",
-    sendEmail: "Enviar correo",
+    eyebrow: "05 / contacto",
+    title: ["¿Listo para tener ", "tu página", "?"],
+    desc: "Escríbeme y platicamos sin compromiso sobre lo que necesitas.",
     copyEmail: "Copiar correo",
     copied: "Correo copiado ✓",
-    fields: { name: "Nombre", email: "Correo", message: "¿En qué te ayudo?" },
-    errors: { name: "Escribe tu nombre", email: "Correo no válido", message: "El mensaje es muy corto" },
-    submit: "Enviar mensaje",
-    subject: "Proyecto — ",
   },
+  tech: {
+    eyebrow: "> perfil técnico",
+    lead: "Para reclutadores y equipos de desarrollo: herramientas, experiencia, proyectos y certificaciones.",
+    back: "Volver al inicio",
+    stack: { eyebrow: "01 / stack", title: ["Herramientas con las que ", "construyo."] },
+    experience: { eyebrow: "02 / experiencia", title: ["Dónde he ", "trabajado."] },
+    projects: { eyebrow: "03 / proyectos", title: ["Todos mis ", "proyectos."], filter: "Filtrar proyectos", all: "Todos", demo: "Ver demo", code: "Ver código" },
+    education: { eyebrow: "04 / formación", title: ["Formación y ", "certificaciones."], credly: "Ver credenciales en Credly" },
+    cta: { title: ["¿Hablamos de una ", "vacante", "?"], desc: "Estoy abierto a oportunidades remotas y proyectos freelance." },
+  },
+  categories: { Web: "Web", Software: "Software", Seguridad: "Seguridad", IA: "IA" } as Record<Category, string>,
   footer: { contact: "Contacto", base: "Sede", nav: "Navegación", status: "Estado", remote: "Proyectos remotos en todo México", top: "Volver arriba" },
 };
