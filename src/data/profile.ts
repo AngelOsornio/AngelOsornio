@@ -1,5 +1,6 @@
 // Edita este archivo para agregar o cambiar contenido sin tocar el diseño.
 import cv from "@/assets/cv.pdf.asset.json";
+import photo from "@/assets/angel-osornio.webp";
 
 export const profile = {
   name: "Angel Nahum Trejo Osornio",
@@ -11,7 +12,8 @@ export const profile = {
   whatsapp: "https://wa.me/527711221326?text=" + encodeURIComponent("Hola Angel, vi tu página y me interesa…"),
   github: "https://github.com/AngelOsornio",
   credly: "https://www.credly.com/users/trejo-osornio-angel-nahum",
-  linkedin: "", // TODO: agrega tu URL de LinkedIn
+  linkedin: "https://www.linkedin.com/in/angel-trejo-osornio-485685334",
+  photo,
   cv: cv.url,
   languages: "Español (nativo) · Inglés C2 (Oxford)",
   about:
@@ -44,7 +46,7 @@ export const experience = [
   {
     company: "Padelize",
     role: "Desarrollador Full Stack",
-    dates: "Actualidad", // TODO: agrega fecha de inicio
+    dates: "May – Oct 2026",
     points: [
       "Desarrollo y mantenimiento de una plataforma SaaS para la gestión de clubes de pádel: clientes, reservas y cobros.",
       "Migración de la plataforma a infraestructura propia: despliegue en VPS con EasyPanel, configuración de dominio y enrutamiento SPA.",
@@ -54,7 +56,7 @@ export const experience = [
   {
     company: "SoftMex",
     role: "Cofundador y Desarrollador de Software",
-    dates: "Actualidad", // TODO: agrega fechas
+    dates: "May – Oct 2026",
     points: [
       "Cofundador de la startup y parte del equipo que desarrolla Astra, un CRM/ERP para negocios.",
       "Actualmente a cargo de la implementación piloto de Astra (agenda y automatizaciones de WhatsApp) para un centro de ejercicio en Aguascalientes.",
@@ -81,7 +83,7 @@ export type Project = {
   code?: string;
 };
 export const projects: Project[] = [
-  { name: "Padelize", categories: ["Software", "Web"], desc: "SaaS para gestión de clubes de pádel con clientes, reservas y cobros, desplegado en producción.", tech: ["React", "TypeScript", "Supabase", "EasyPanel"] },
+  { name: "Padelize", categories: ["Software", "Web"], desc: "SaaS para gestión de clubes de pádel con clientes, reservas y cobros, desplegado en producción.", tech: ["React", "TypeScript", "Supabase", "EasyPanel"], demo: "https://padelize.app/" },
   { name: "Astra", categories: ["Software"], desc: "CRM/ERP con agenda y automatizaciones de WhatsApp.", tech: ["CRM/ERP", "WhatsApp"] },
   { name: "SGA — Sistema de Gestión de Almacén", year: "2026", categories: ["Web"], desc: "Recepción, inventario y traspasos para Grupo Zeta / ZPremia.", tech: ["Angular 17", "Java 21", "Spring Boot 3", "SQL Server 2022", "Docker"] },
   { name: "Auditoría de Seguridad — BadStore", year: "2026", categories: ["Seguridad"], desc: "Pentest académico: exposición de datos sensibles e inyección SQL que permitió extraer la base de usuarios y descifrar la contraseña de administrador.", tech: ["Kali Linux", "SQLmap", "OWASP Top 10"] },

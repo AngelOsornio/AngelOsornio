@@ -127,7 +127,18 @@ function Index() {
       <main>
         {/* Hero */}
         <section id="inicio">
-          <div className="mx-auto flex min-h-[100svh] max-w-5xl flex-col justify-center px-5 pt-24 pb-16">
+          <div className="mx-auto grid min-h-[100svh] max-w-5xl content-center items-center gap-10 px-5 pt-24 pb-16 md:grid-cols-[1fr_auto]">
+            <div className="md:order-2">
+              <img
+                src={profile.photo}
+                alt={`Fotografía de ${profile.name}`}
+                width={720}
+                height={720}
+                fetchPriority="high"
+                className="size-28 rounded-md border border-primary object-cover sm:size-36 md:size-72"
+              />
+            </div>
+            <div className="md:order-1">
             <p className="font-mono text-sm text-primary">&gt; dev + sec<span className="cursor-blink">_</span></p>
             <h1 className="mt-5 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
               {profile.name}
@@ -141,6 +152,7 @@ function Index() {
               <a href="#proyectos" className={btnOutline}>Ver proyectos</a>
             </div>
             <p className="mt-8 font-mono text-xs text-muted-foreground">{profile.location}</p>
+            </div>
           </div>
         </section>
 
