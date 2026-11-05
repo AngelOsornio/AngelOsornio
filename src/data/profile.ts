@@ -1,6 +1,11 @@
-// Edita este archivo para agregar o cambiar contenido sin tocar el diseño.
+// Contenido en ESPAÑOL. Edita este archivo para cambiar textos sin tocar el diseño.
+// La versión en inglés está en profile.en.ts (mismos campos, traducidos).
 import cv from "@/assets/cv.pdf.asset.json";
 import photo from "@/assets/angel-osornio.webp";
+
+// URL pública de la página (para la vista previa al compartir y Google).
+// Cámbiala cuando tengas tu propio dominio.
+export const SITE_URL = "https://angelosornio.lovable.app";
 
 export const profile = {
   name: "Angel Nahum Trejo Osornio",
@@ -15,6 +20,7 @@ export const profile = {
   linkedin: "https://www.linkedin.com/in/angel-trejo-osornio-485685334",
   photo,
   cv: cv.url,
+  vcard: "/angel-osornio.vcf",
   languages: "Español (nativo) · Inglés C2 (Oxford)",
   about:
     "Soy estudiante de Ingeniería en Seguridad Informática y Desarrollo de Software en Global University (egreso en diciembre de 2026). Desarrollo aplicaciones web de punta a punta, desde la base de datos y el backend hasta el despliegue en producción, con la seguridad como parte del diseño y no como un agregado. He cofundado una startup de software, desarrollado plataformas SaaS en producción y realizado auditorías de seguridad siguiendo la metodología de un pentest profesional.",
@@ -149,3 +155,50 @@ export const certifications = [
   { name: "Networking Basics", org: "Cisco", date: "Nov 2025" },
   { name: "Inglés C2", org: "Oxford", date: "Dic 2025" },
 ];
+
+// Textos de la interfaz. En los títulos, la parte del medio va resaltada en verde.
+export const ui = {
+  nav: { "sobre-mi": "Sobre mí", servicios: "Servicios", experiencia: "Experiencia", proyectos: "Proyectos", formacion: "Formación", contacto: "Contacto" },
+  skip: "Saltar al contenido",
+  themeToLight: "Cambiar a modo claro",
+  themeToDark: "Cambiar a modo oscuro",
+  langSwitch: "Switch to English",
+  menu: "Menú",
+  contact: "Contactar",
+  whatsappCta: "Escríbeme por WhatsApp",
+  saveContact: "Guardar contacto",
+  heroLead: "Construyo software",
+  heroIntro: ["Soy", ", ingeniero en ciberseguridad y desarrollo de software. Creo aplicaciones web de punta a punta, con la seguridad como parte del diseño."],
+  seeProjects: "Ver proyectos",
+  remote: "Remoto",
+  scrollDown: "Bajar a Sobre mí",
+  photoAlt: "Fotografía de",
+  terminal: [
+    { cmd: "whoami", out: "angel_trejo_osornio" },
+    { cmd: "cat rol.txt", out: "dev + sec · full stack" },
+    { cmd: "status", out: "● disponible para proyectos" },
+  ],
+  aboutEyebrow: "01 / sobre mí",
+  services: { eyebrow: "02 / servicios", title: ["Lo que puedo ", "construir contigo."], aside: "Elige un servicio y se abre WhatsApp con tu mensaje listo.", quote: "Cotizar", message: "Hola Angel, me interesa: " },
+  workflow: { eyebrow: "03 / cómo trabajo", title: ["Seguridad desde el diseño, ", "no como un agregado."], desc: "Así llevo cada proyecto de la idea a producción. Toca un paso para verlo.", tabs: "Pasos de trabajo", path: "~/tu-proyecto", step: "paso" },
+  stack: { eyebrow: "04 / stack", title: ["Herramientas con las que ", "construyo."], aside: "Del frontend a la infraestructura, con la seguridad en cada capa." },
+  experience: { eyebrow: "05 / experiencia", title: ["Dónde he ", "construido."], desc: "Startups, plataformas SaaS en producción y proyectos con empresas reales.", cv: "Descargar CV" },
+  projects: { eyebrow: "06 / proyectos", title: ["Proyectos que ", "ya funcionan."], aside: "Software en producción, auditorías de seguridad e inteligencia artificial.", filter: "Filtrar proyectos", all: "Todos", demo: "Ver demo", code: "Ver código" },
+  categories: { Web: "Web", Software: "Software", Seguridad: "Seguridad", IA: "IA" } as Record<Category, string>,
+  education: { eyebrow: "07 / formación", title: ["Formación y ", "certificaciones."], credly: "Ver credenciales en Credly" },
+  contactSection: {
+    eyebrow: "08 / contacto",
+    title: ["Construyamos algo ", "seguro", " juntos."],
+    desc: "Una primera conversación basta para entender tu proyecto y proponerte el camino más directo.",
+    emailTitle: "¿Prefieres correo?",
+    emailDesc: "Escríbeme directo o déjame tu mensaje en el formulario.",
+    sendEmail: "Enviar correo",
+    copyEmail: "Copiar correo",
+    copied: "Correo copiado ✓",
+    fields: { name: "Nombre", email: "Correo", message: "¿En qué te ayudo?" },
+    errors: { name: "Escribe tu nombre", email: "Correo no válido", message: "El mensaje es muy corto" },
+    submit: "Enviar mensaje",
+    subject: "Proyecto — ",
+  },
+  footer: { contact: "Contacto", base: "Sede", nav: "Navegación", status: "Estado", remote: "Proyectos remotos en todo México", top: "Volver arriba" },
+};

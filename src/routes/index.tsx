@@ -1,17 +1,40 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { z } from "zod";
 import {
   Code2, Globe, Database, ShieldCheck, Wrench, Cpu, Menu, X, Sun, Moon,
   MessageCircle, Mail, Copy, Check, Github, Award, Download, Linkedin,
-  ArrowUpRight, ArrowDown, ArrowUp, GraduationCap,
+  ArrowUpRight, ArrowDown, ArrowUp, GraduationCap, UserPlus,
 } from "lucide-react";
-import {
-  profile, services, stack, experience, projects, education, certifications, heroWords, workflow,
-  type Category, type ServiceIcon,
-} from "@/data/profile";
+import * as es from "@/data/profile";
+import * as en from "@/data/profile.en";
+import { SITE_URL, profile as baseProfile, type Category, type ServiceIcon } from "@/data/profile";
+
+/* ───────────── idioma ───────────── */
+
+type Lang = "es" | "en";
+const CONTENT = { es, en } satisfies Record<Lang, typeof es>;
+const LangCtx = createContext<Lang>("es");
+const useContent = () => CONTENT[useContext(LangCtx)];
+
+/* ───────────── SEO y vista previa al compartir ───────────── */
 
 const DESC = "Angel Nahum Trejo Osornio — Ingeniero en Ciberseguridad y Desarrollo de Software en Aguascalientes, MX. Software seguro: del código a la red.";
+const OG_IMAGE = `${SITE_URL}/og.jpg`;
+const PERSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: baseProfile.name,
+  jobTitle: baseProfile.title,
+  url: SITE_URL,
+  image: OG_IMAGE,
+  email: `mailto:${baseProfile.email}`,
+  telephone: "+52 " + baseProfile.phone,
+  address: { "@type": "PostalAddress", addressLocality: "Aguascalientes", addressCountry: "MX" },
+  alumniOf: { "@type": "CollegeOrUniversity", name: "Global University" },
+  knowsLanguage: ["es", "en"],
+  sameAs: [baseProfile.linkedin, baseProfile.github, baseProfile.credly],
+};
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -20,22 +43,28 @@ export const Route = createFileRoute("/")({
       { name: "description", content: DESC },
       { property: "og:title", content: "Angel Nahum Trejo Osornio · dev + sec" },
       { property: "og:description", content: DESC },
-      { property: "og:type", content: "website" },
+      { property: "og:type", content: "profile" },
+      { property: "og:url", content: SITE_URL },
+      { property: "og:image", content: OG_IMAGE },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "Angel Nahum Trejo Osornio — dev + sec" },
+      { property: "og:locale", content: "es_MX" },
+      { property: "og:locale:alternate", content: "en_US" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Angel Nahum Trejo Osornio · dev + sec" },
+      { name: "twitter:description", content: DESC },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
+    links: [{ rel: "canonical", href: SITE_URL }],
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(PERSON_LD) }],
   }),
-  component: Index,
+  component: Page,
 });
 
-const NAV = [
-  { id: "sobre-mi", label: "Sobre mí" },
-  { id: "servicios", label: "Servicios" },
-  { id: "experiencia", label: "Experiencia" },
-  { id: "proyectos", label: "Proyectos" },
-  { id: "formacion", label: "Formación" },
-  { id: "contacto", label: "Contacto" },
-];
+/* ───────────── constantes ───────────── */
 
+const NAV_IDS = ["sobre-mi", "servicios", "experiencia", "proyectos", "formacion", "contacto"] as const;
 // Secciones sin enlace propio en el menú: resaltan la sección más cercana.
 const SPY_ALIAS: Record<string, string> = { proceso: "servicios", stack: "servicios" };
 
@@ -43,9 +72,11 @@ const ICONS: Record<ServiceIcon, typeof Code2> = {
   code: Code2, globe: Globe, database: Database, shield: ShieldCheck, wrench: Wrench, cpu: Cpu,
 };
 
-const WA_BASE = profile.whatsapp.split("?")[0] ?? profile.whatsapp;
-const wa = (msg: string) => `${WA_BASE}?text=${encodeURIComponent(msg)}`;
-const [PLACE = "", AVAILABILITY = ""] = profile.location.split(" · ");
+const wa = (msg: string) => `${baseProfile.whatsapp.split("?")[0] ?? ""}?text=${encodeURIComponent(msg)}`;
+const splitLocation = (loc: string) => {
+  const [place = "", availability = ""] = loc.split(" · ");
+  return { place, availability };
+};
 
 const btn = "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold transition-colors";
 const btnPrimary = `${btn} bg-primary text-primary-foreground hover:opacity-90`;
@@ -87,8 +118,9 @@ function Logo() {
   );
 }
 
-function Accent({ children }: { children: ReactNode }) {
-  return <em className="not-italic text-primary">{children}</em>;
+/** Título con la parte del medio resaltada: ["antes ", "resaltado", " después"]. */
+function Title({ parts }: { parts: readonly string[] }) {
+  return <>{parts[0]}<em className="not-italic text-primary">{parts[1]}</em>{parts[2] ?? ""}</>;
 }
 
 function Block({ id, alt, children }: { id?: string; alt?: boolean; children: ReactNode }) {
@@ -99,12 +131,12 @@ function Block({ id, alt, children }: { id?: string; alt?: boolean; children: Re
   );
 }
 
-function SectionHead({ eyebrow, title, aside }: { eyebrow: string; title: ReactNode; aside?: ReactNode }) {
+function SectionHead({ eyebrow, title, aside }: { eyebrow: string; title: readonly string[]; aside?: ReactNode }) {
   return (
     <div className="reveal flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
       <div>
         <p className="eyebrow">{eyebrow}</p>
-        <h2 className="mt-3 max-w-2xl text-4xl font-extrabold leading-[1.05] tracking-tight md:text-5xl">{title}</h2>
+        <h2 className="mt-3 max-w-2xl text-4xl font-extrabold leading-[1.05] tracking-tight md:text-5xl"><Title parts={title} /></h2>
       </div>
       {aside && <div className="max-w-sm text-muted-foreground md:text-right">{aside}</div>}
     </div>
@@ -215,37 +247,63 @@ function Marquee({ items, reverse }: { items: string[]; reverse?: boolean }) {
   );
 }
 
-/* ───────────── page ───────────── */
+/* ───────────── página ───────────── */
 
-function Index() {
-  const [menu, setMenu] = useState(false);
-  const [active, setActive] = useState("");
+function Page() {
+  const [lang, setLang] = useState<Lang>("es");
   const [light, setLight] = useState(false);
 
+  // Idioma: ?lang=en en la URL > preferencia guardada > idioma del navegador.
   useEffect(() => {
-    setLight(localStorage.getItem("theme") === "light");
-    const io = new IntersectionObserver(
-      (es) => es.forEach((e) => e.isIntersecting && e.target.classList.add("is-visible")),
-      { threshold: 0.1 },
-    );
-    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
-    const spy = new IntersectionObserver(
-      (es) => es.forEach((e) => e.isIntersecting && setActive(SPY_ALIAS[e.target.id] ?? e.target.id)),
-      { rootMargin: "-45% 0px -50% 0px" },
-    );
-    ["inicio", "proceso", "stack", ...NAV.map((n) => n.id)].forEach((id) => { const el = document.getElementById(id); if (el) spy.observe(el); });
-    return () => { io.disconnect(); spy.disconnect(); };
+    const param = new URLSearchParams(window.location.search).get("lang");
+    let saved: string | null = null;
+    try { saved = localStorage.getItem("lang"); } catch { /* sin almacenamiento */ }
+    const pick = param ?? saved ?? (navigator.language.toLowerCase().startsWith("es") ? "es" : "en");
+    setLang(pick === "en" ? "en" : "es");
+    try { setLight(localStorage.getItem("theme") === "light"); } catch { /* sin almacenamiento */ }
   }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = lang;
+    try { localStorage.setItem("lang", lang); } catch { /* sin almacenamiento */ }
+  }, [lang]);
 
   useEffect(() => {
     document.documentElement.classList.toggle("light", light);
     document.body.className = light ? "theme-light" : "theme-dark";
-    localStorage.setItem("theme", light ? "light" : "dark");
+    try { localStorage.setItem("theme", light ? "light" : "dark"); } catch { /* sin almacenamiento */ }
   }, [light]);
 
   return (
+    <LangCtx.Provider value={lang}>
+      <Index light={light} onTheme={() => setLight(!light)} onLang={() => setLang(lang === "es" ? "en" : "es")} />
+    </LangCtx.Provider>
+  );
+}
+
+function Index({ light, onTheme, onLang }: { light: boolean; onTheme: () => void; onLang: () => void }) {
+  const lang = useContext(LangCtx);
+  const { ui, profile, stack, experience, education, certifications } = useContent();
+  const [menu, setMenu] = useState(false);
+  const [active, setActive] = useState("");
+
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("is-visible")),
+      { threshold: 0.1 },
+    );
+    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+    const spy = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && setActive(SPY_ALIAS[e.target.id] ?? e.target.id)),
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    ["inicio", "proceso", "stack", ...NAV_IDS].forEach((id) => { const el = document.getElementById(id); if (el) spy.observe(el); });
+    return () => { io.disconnect(); spy.disconnect(); };
+  }, []);
+
+  return (
     <>
-      <a href="#inicio" className="sr-only focus:not-sr-only">Saltar al contenido</a>
+      <a href="#inicio" className="sr-only focus:not-sr-only">{ui.skip}</a>
 
       {/* Navegación flotante */}
       <header className="fixed inset-x-0 top-0 z-40 px-3 pt-3 sm:px-5">
@@ -255,25 +313,29 @@ function Index() {
             <span className="whitespace-nowrap text-sm font-bold tracking-tight">Angel Osornio<span className="text-primary">_</span></span>
           </a>
           <ul className="hidden h-11 items-center gap-0.5 rounded-full border border-border bg-background/80 px-1 backdrop-blur-md lg:flex">
-            {NAV.map((n) => (
-              <li key={n.id}>
-                <a href={`#${n.id}`} aria-current={active === n.id ? "true" : undefined}
-                  className={`block rounded-full px-3.5 py-1.5 text-sm transition-colors ${active === n.id ? "bg-primary/15 text-primary" : "text-muted-foreground hover:text-foreground"}`}>
-                  {n.label}
+            {NAV_IDS.map((id) => (
+              <li key={id}>
+                <a href={`#${id}`} aria-current={active === id ? "true" : undefined}
+                  className={`block rounded-full px-3.5 py-1.5 text-sm transition-colors ${active === id ? "bg-primary/15 text-primary" : "text-muted-foreground hover:text-foreground"}`}>
+                  {ui.nav[id]}
                 </a>
               </li>
             ))}
           </ul>
           <div className="flex items-center gap-2">
-            <button onClick={() => setLight(!light)} aria-label={light ? "Cambiar a modo oscuro" : "Cambiar a modo claro"}
+            <button onClick={onLang} aria-label={ui.langSwitch} title={ui.langSwitch}
+              className={`${pill} w-11 justify-center font-mono text-xs font-medium text-muted-foreground hover:text-primary`}>
+              {lang === "es" ? "EN" : "ES"}
+            </button>
+            <button onClick={onTheme} aria-label={light ? ui.themeToDark : ui.themeToLight}
               className={`${pill} w-11 justify-center text-muted-foreground hover:text-primary`}>
               {light ? <Moon size={17} /> : <Sun size={17} />}
             </button>
             <a href={profile.whatsapp} target="_blank" rel="noopener noreferrer"
               className="hidden h-11 items-center gap-1.5 rounded-full bg-foreground px-5 text-sm font-semibold text-background transition-colors hover:bg-primary hover:text-primary-foreground sm:inline-flex">
-              Contactar <ArrowUpRight size={16} />
+              {ui.contact} <ArrowUpRight size={16} />
             </a>
-            <button onClick={() => setMenu(!menu)} aria-label="Menú" aria-expanded={menu} className={`${pill} w-11 justify-center lg:hidden`}>
+            <button onClick={() => setMenu(!menu)} aria-label={ui.menu} aria-expanded={menu} className={`${pill} w-11 justify-center lg:hidden`}>
               {menu ? <X size={19} /> : <Menu size={19} />}
             </button>
           </div>
@@ -281,18 +343,23 @@ function Index() {
         {menu && (
           <div className="mx-auto mt-2 max-w-6xl rounded-2xl border border-border bg-background/95 p-2 backdrop-blur-md lg:hidden">
             <ul>
-              {NAV.map((n, i) => (
-                <li key={n.id}>
-                  <a href={`#${n.id}`} onClick={() => setMenu(false)}
-                    className={`flex items-baseline gap-3 rounded-xl px-4 py-3 text-lg font-semibold ${active === n.id ? "text-primary" : ""}`}>
-                    <span className="font-mono text-xs text-muted-foreground">0{i + 1}</span>{n.label}
+              {NAV_IDS.map((id, i) => (
+                <li key={id}>
+                  <a href={`#${id}`} onClick={() => setMenu(false)}
+                    className={`flex items-baseline gap-3 rounded-xl px-4 py-3 text-lg font-semibold ${active === id ? "text-primary" : ""}`}>
+                    <span className="font-mono text-xs text-muted-foreground">0{i + 1}</span>{ui.nav[id]}
                   </a>
                 </li>
               ))}
             </ul>
-            <a href={profile.whatsapp} target="_blank" rel="noopener noreferrer" onClick={() => setMenu(false)} className={`${btnPrimary} mt-2 w-full`}>
-              <MessageCircle size={18} /> Escríbeme por WhatsApp
-            </a>
+            <div className="mt-2 grid gap-2 sm:grid-cols-2">
+              <a href={profile.whatsapp} target="_blank" rel="noopener noreferrer" onClick={() => setMenu(false)} className={btnPrimary}>
+                <MessageCircle size={18} /> {ui.whatsappCta}
+              </a>
+              <a href={profile.vcard} onClick={() => setMenu(false)} className={btnOutline}>
+                <UserPlus size={18} /> {ui.saveContact}
+              </a>
+            </div>
           </div>
         )}
       </header>
@@ -303,8 +370,8 @@ function Index() {
         {/* Sobre mí: texto que se enciende con el scroll */}
         <section id="sobre-mi" className="section-alt">
           <div className="mx-auto max-w-6xl px-5 py-24 md:py-36">
-            <p className="eyebrow text-center">01 / sobre mí</p>
-            <ScrollWords text={profile.about}
+            <p className="eyebrow text-center">{ui.aboutEyebrow}</p>
+            <ScrollWords key={lang} text={profile.about}
               className="mx-auto mt-6 max-w-4xl text-center text-2xl font-bold leading-snug tracking-tight md:text-[2.5rem] md:leading-[1.2]" />
             <p className="mt-10 text-center font-mono text-sm text-muted-foreground">{profile.languages}</p>
             <div className="mt-20 grid border-t border-border sm:grid-cols-3">
@@ -321,40 +388,13 @@ function Index() {
           </div>
         </section>
 
-        {/* Servicios */}
-        <Block id="servicios">
-          <SectionHead eyebrow="02 / servicios" title={<>Lo que puedo <Accent>construir contigo.</Accent></>}
-            aside="Elige un servicio y se abre WhatsApp con tu mensaje listo." />
-          <div className="reveal mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((s, i) => {
-              const Icon = ICONS[s.icon];
-              return (
-                <a key={s.title} href={wa(`Hola Angel, me interesa: ${s.title}.`)} target="_blank" rel="noopener noreferrer"
-                  className="group flex min-h-72 flex-col rounded-2xl border border-border bg-card p-6 transition duration-300 hover:-translate-y-1 hover:border-primary">
-                  <div className="flex items-start justify-between">
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-border text-primary transition-colors group-hover:border-primary">
-                      <Icon size={22} strokeWidth={1.5} aria-hidden />
-                    </span>
-                    <span className="font-mono text-xs text-muted-foreground">0{i + 1}</span>
-                  </div>
-                  <h3 className="mt-12 text-xl font-bold">{s.title}</h3>
-                  <p className="mt-1.5 mb-6 text-sm text-muted-foreground">{s.desc}</p>
-                  <span className="mt-auto flex items-center justify-between border-t border-border pt-4 font-mono text-xs text-muted-foreground transition-colors group-hover:text-primary">
-                    Cotizar
-                    <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </span>
-                </a>
-              );
-            })}
-          </div>
-        </Block>
+        <Services />
 
         <Workflow />
 
         {/* Stack */}
         <Block id="stack">
-          <SectionHead eyebrow="04 / stack" title={<>Herramientas con las que <Accent>construyo.</Accent></>}
-            aside="Del frontend a la infraestructura, con la seguridad en cada capa." />
+          <SectionHead eyebrow={ui.stack.eyebrow} title={ui.stack.title} aside={ui.stack.aside} />
           <div className="mt-14 -mx-5 space-y-3">
             <Marquee items={stack.slice(0, 4).flatMap((g) => g.items)} />
             <Marquee items={stack.slice(4).flatMap((g) => g.items)} reverse />
@@ -375,11 +415,11 @@ function Index() {
         <Block id="experiencia" alt>
           <div className="grid gap-14 lg:grid-cols-[0.8fr_1.2fr]">
             <div className="reveal lg:sticky lg:top-28 lg:self-start">
-              <p className="eyebrow">05 / experiencia</p>
-              <h2 className="mt-3 text-4xl font-extrabold leading-[1.05] tracking-tight md:text-5xl">Dónde he <Accent>construido.</Accent></h2>
-              <p className="mt-5 max-w-sm text-muted-foreground">Startups, plataformas SaaS en producción y proyectos con empresas reales.</p>
+              <p className="eyebrow">{ui.experience.eyebrow}</p>
+              <h2 className="mt-3 text-4xl font-extrabold leading-[1.05] tracking-tight md:text-5xl"><Title parts={ui.experience.title} /></h2>
+              <p className="mt-5 max-w-sm text-muted-foreground">{ui.experience.desc}</p>
               <a href={profile.cv} download="CV_AngelNahumTrejoOsornio.pdf" className={`${btnOutline} mt-8`}>
-                <Download size={16} /> Descargar CV
+                <Download size={16} /> {ui.experience.cv}
               </a>
             </div>
             <ol className="reveal">
@@ -405,7 +445,7 @@ function Index() {
 
         {/* Formación */}
         <Block id="formacion" alt>
-          <SectionHead eyebrow="07 / formación" title={<>Formación y <Accent>certificaciones.</Accent></>} />
+          <SectionHead eyebrow={ui.education.eyebrow} title={ui.education.title} />
           <div className="reveal mt-14 grid gap-3 md:grid-cols-2">
             {education.map((e) => (
               <div key={e.title} className="flex gap-4 rounded-2xl border border-border bg-card p-6">
@@ -430,7 +470,7 @@ function Index() {
             ))}
           </div>
           <a href={profile.credly} target="_blank" rel="noopener noreferrer" className={`${btnOutline} mt-8`}>
-            Ver credenciales en Credly <ArrowUpRight size={16} />
+            {ui.education.credly} <ArrowUpRight size={16} />
           </a>
         </Block>
 
@@ -439,7 +479,7 @@ function Index() {
 
       <Footer />
 
-      <a href={profile.whatsapp} target="_blank" rel="noopener noreferrer" aria-label="Escríbeme por WhatsApp"
+      <a href={profile.whatsapp} target="_blank" rel="noopener noreferrer" aria-label={ui.whatsappCta}
         className="fixed bottom-5 right-5 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground sm:hidden">
         <MessageCircle size={24} />
       </a>
@@ -447,15 +487,12 @@ function Index() {
   );
 }
 
-/* ───────────── hero ───────────── */
-
-const TERMINAL = [
-  { cmd: "whoami", out: "angel_trejo_osornio" },
-  { cmd: "cat rol.txt", out: "dev + sec · full stack" },
-  { cmd: "status", out: "● disponible para proyectos" },
-];
+/* ───────────── inicio ───────────── */
 
 function Hero() {
+  const lang = useContext(LangCtx);
+  const { ui, profile, heroWords } = useContent();
+  const { place, availability } = splitLocation(profile.location);
   return (
     <section id="inicio" className="relative overflow-hidden">
       <div aria-hidden className="bg-grid pointer-events-none absolute inset-0" />
@@ -463,27 +500,29 @@ function Hero() {
         <div>
           <p className="font-mono text-sm text-primary">&gt; dev + sec<span className="cursor-blink">_</span></p>
           <h1 className="mt-6 min-h-[3.2em] text-[2.5rem] font-extrabold leading-[1.02] tracking-tight sm:min-h-[2.1em] sm:text-6xl lg:text-[4.6rem]">
-            <span className="sr-only">Construyo software {heroWords.join(", ")}.</span>
-            <span aria-hidden>Construyo software <br className="hidden sm:block" /><Typewriter words={heroWords} /></span>
+            <span className="sr-only">{ui.heroLead} {heroWords.join(", ")}.</span>
+            <span aria-hidden>{ui.heroLead} <br className="hidden sm:block" /><Typewriter key={lang} words={heroWords} /></span>
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-            Soy <strong className="font-semibold text-foreground">{profile.name}</strong>, ingeniero en ciberseguridad y desarrollo de software.
-            Creo aplicaciones web de punta a punta, con la seguridad como parte del diseño.
+            {ui.heroIntro[0]} <strong className="font-semibold text-foreground">{profile.name}</strong>{ui.heroIntro[1]}
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <a href={profile.whatsapp} target="_blank" rel="noopener noreferrer" className={btnPrimary}>
-              <MessageCircle size={18} /> Escríbeme por WhatsApp
+              <MessageCircle size={18} /> {ui.whatsappCta}
             </a>
-            <a href="#proyectos" className={btnOutline}>Ver proyectos</a>
+            <a href={profile.vcard} className={btnOutline}>
+              <UserPlus size={18} /> {ui.saveContact}
+            </a>
           </div>
           <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-xs text-muted-foreground">
-            <span className="inline-flex items-center gap-2"><span className="status-dot" aria-hidden />{AVAILABILITY || "Disponible"}</span>
-            <span>{PLACE} · Remoto</span>
+            <span className="inline-flex items-center gap-2"><span className="status-dot" aria-hidden />{availability}</span>
+            <span>{place} · {ui.remote}</span>
+            <a href="#proyectos" className="inline-flex items-center gap-1 text-foreground hover:text-primary">{ui.seeProjects} <ArrowDown size={13} /></a>
           </div>
         </div>
         <HeroCard />
       </div>
-      <a href="#sobre-mi" aria-label="Bajar a Sobre mí"
+      <a href="#sobre-mi" aria-label={ui.scrollDown}
         className="absolute bottom-8 left-1/2 hidden h-11 w-11 -translate-x-1/2 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary hover:text-primary md:inline-flex">
         <ArrowDown size={18} />
       </a>
@@ -492,16 +531,18 @@ function Hero() {
 }
 
 function HeroCard() {
+  const { ui, profile } = useContent();
+  const terminal = ui.terminal;
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const [shown, setShown] = useState(0);
 
   useEffect(() => {
-    if (reduced) { setShown(TERMINAL.length); return; }
-    if (shown >= TERMINAL.length) return;
+    if (reduced) { setShown(terminal.length); return; }
+    if (shown >= terminal.length) return;
     const t = window.setTimeout(() => setShown(shown + 1), shown === 0 ? 700 : 900);
     return () => window.clearTimeout(t);
-  }, [shown, reduced]);
+  }, [shown, reduced, terminal.length]);
 
   const tilt = (e: React.PointerEvent<HTMLDivElement>) => {
     const el = ref.current;
@@ -524,20 +565,53 @@ function HeroCard() {
           <span className="ml-2 font-mono text-xs text-muted-foreground">~/angel — zsh</span>
         </div>
         <div className="p-3">
-          <img src={profile.photo} alt={`Fotografía de ${profile.name}`} width={720} height={720} fetchPriority="high"
+          <img src={profile.photo} alt={`${ui.photoAlt} ${profile.name}`} width={720} height={720} fetchPriority="high"
             className="aspect-square w-full rounded-lg object-cover" />
         </div>
         <div className="min-h-[8.5rem] border-t border-border px-4 py-4 font-mono text-xs leading-relaxed">
-          {TERMINAL.slice(0, shown).map((l) => (
+          {terminal.slice(0, shown).map((l) => (
             <div key={l.cmd} className="fade-up">
               <p><span className="text-primary">$</span> {l.cmd}</p>
               <p className="text-muted-foreground">{l.out}</p>
             </div>
           ))}
-          {shown < TERMINAL.length && <p><span className="text-primary">$</span> <span className="cursor-blink">▍</span></p>}
+          {shown < terminal.length && <p><span className="text-primary">$</span> <span className="cursor-blink">▍</span></p>}
         </div>
       </div>
     </div>
+  );
+}
+
+/* ───────────── servicios ───────────── */
+
+function Services() {
+  const { ui, services } = useContent();
+  return (
+    <Block id="servicios">
+      <SectionHead eyebrow={ui.services.eyebrow} title={ui.services.title} aside={ui.services.aside} />
+      <div className="reveal mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {services.map((s, i) => {
+          const Icon = ICONS[s.icon];
+          return (
+            <a key={s.icon} href={wa(`${ui.services.message}${s.title}.`)} target="_blank" rel="noopener noreferrer"
+              className="group flex min-h-72 flex-col rounded-2xl border border-border bg-card p-6 transition duration-300 hover:-translate-y-1 hover:border-primary">
+              <div className="flex items-start justify-between">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-border text-primary transition-colors group-hover:border-primary">
+                  <Icon size={22} strokeWidth={1.5} aria-hidden />
+                </span>
+                <span className="font-mono text-xs text-muted-foreground">0{i + 1}</span>
+              </div>
+              <h3 className="mt-12 text-xl font-bold">{s.title}</h3>
+              <p className="mt-1.5 mb-6 text-sm text-muted-foreground">{s.desc}</p>
+              <span className="mt-auto flex items-center justify-between border-t border-border pt-4 font-mono text-xs text-muted-foreground transition-colors group-hover:text-primary">
+                {ui.services.quote}
+                <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </span>
+            </a>
+          );
+        })}
+      </div>
+    </Block>
   );
 }
 
@@ -546,6 +620,7 @@ function HeroCard() {
 const STEP_MS = 5200;
 
 function Workflow() {
+  const { ui, workflow } = useContent();
   const [i, setI] = useState(0);
   const [auto, setAuto] = useState(true);
   const [lines, setLines] = useState(0);
@@ -558,7 +633,7 @@ function Workflow() {
     if (!playing) return;
     const t = window.setTimeout(() => setI((i + 1) % workflow.length), STEP_MS);
     return () => window.clearTimeout(t);
-  }, [i, playing]);
+  }, [i, playing, workflow.length]);
 
   useEffect(() => {
     if (reduced) { setLines(step.output.length); return; }
@@ -578,14 +653,12 @@ function Workflow() {
     <Block id="proceso" alt>
       <div ref={ref} className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
         <div className="reveal">
-          <p className="eyebrow">03 / cómo trabajo</p>
-          <h2 className="mt-3 text-4xl font-extrabold leading-[1.05] tracking-tight md:text-5xl">
-            Seguridad desde el diseño, <Accent>no como un agregado.</Accent>
-          </h2>
-          <p className="mt-5 max-w-md text-muted-foreground">Así llevo cada proyecto de la idea a producción. Toca un paso para verlo.</p>
-          <div role="tablist" aria-label="Pasos de trabajo" className="mt-8 border-t border-border">
+          <p className="eyebrow">{ui.workflow.eyebrow}</p>
+          <h2 className="mt-3 text-4xl font-extrabold leading-[1.05] tracking-tight md:text-5xl"><Title parts={ui.workflow.title} /></h2>
+          <p className="mt-5 max-w-md text-muted-foreground">{ui.workflow.desc}</p>
+          <div role="tablist" aria-label={ui.workflow.tabs} className="mt-8 border-t border-border">
             {workflow.map((s, n) => (
-              <button key={s.step} role="tab" aria-selected={n === i} onClick={() => pick(n)}
+              <button key={n} role="tab" aria-selected={n === i} onClick={() => pick(n)}
                 className={`relative flex w-full items-baseline gap-4 border-b border-border py-4 text-left transition-colors ${n === i ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
                 <span className="font-mono text-xs text-primary">0{n + 1}</span>
                 <span className="text-lg font-bold">{s.step}</span>
@@ -602,14 +675,14 @@ function Workflow() {
 
         <div className="reveal rounded-2xl border border-border bg-card lg:self-center" role="tabpanel" aria-label={step.step}>
           <div className="flex items-center justify-between border-b border-border px-5 py-3 font-mono text-xs text-muted-foreground">
-            <span>~/tu-proyecto — {step.step.toLowerCase()}</span>
-            <span>paso 0{i + 1} / 0{workflow.length}</span>
+            <span>{ui.workflow.path} — {step.step.toLowerCase()}</span>
+            <span>{ui.workflow.step} 0{i + 1} / 0{workflow.length}</span>
           </div>
 
           <div className="px-5 pt-8 sm:px-8">
             <ol className="flex items-center" aria-hidden>
               {workflow.map((s, n) => (
-                <li key={s.step} className="flex flex-1 items-center last:flex-none">
+                <li key={n} className="flex flex-1 items-center last:flex-none">
                   <button tabIndex={-1} onClick={() => pick(n)}
                     className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border font-mono text-xs transition-colors duration-300 ${n < i ? "border-primary bg-primary text-primary-foreground" : n === i ? "border-primary text-primary ring-4 ring-primary/15" : "border-border text-muted-foreground"}`}>
                     {n < i ? <Check size={14} /> : n + 1}
@@ -623,7 +696,7 @@ function Workflow() {
               ))}
             </ol>
 
-            <div key={i} className="fade-up mt-8">
+            <div key={`${i}-${step.step}`} className="fade-up mt-8">
               <h3 className="text-2xl font-bold tracking-tight">{step.title}</h3>
               <p className="mt-2 text-muted-foreground">{step.desc}</p>
             </div>
@@ -648,22 +721,23 @@ function Workflow() {
 
 /* ───────────── proyectos ───────────── */
 
-const FILTERS: ("Todos" | Category)[] = ["Todos", "Web", "Software", "Seguridad", "IA"];
+const FILTERS: ("all" | Category)[] = ["all", "Web", "Software", "Seguridad", "IA"];
 
 function Projects() {
-  const [f, setF] = useState<(typeof FILTERS)[number]>("Todos");
-  const list = f === "Todos" ? projects : projects.filter((p) => p.categories.includes(f));
-  const count = (x: (typeof FILTERS)[number]) => (x === "Todos" ? projects.length : projects.filter((p) => p.categories.includes(x)).length);
+  const { ui, projects } = useContent();
+  const [f, setF] = useState<(typeof FILTERS)[number]>("all");
+  const list = f === "all" ? projects : projects.filter((p) => p.categories.includes(f));
+  const count = (x: (typeof FILTERS)[number]) => (x === "all" ? projects.length : projects.filter((p) => p.categories.includes(x)).length);
+  const label = (x: (typeof FILTERS)[number]) => (x === "all" ? ui.projects.all : ui.categories[x]);
 
   return (
     <Block id="proyectos">
-      <SectionHead eyebrow="06 / proyectos" title={<>Proyectos que <Accent>ya funcionan.</Accent></>}
-        aside="Software en producción, auditorías de seguridad e inteligencia artificial." />
-      <div className="mt-10 flex flex-wrap gap-2" role="group" aria-label="Filtrar proyectos">
+      <SectionHead eyebrow={ui.projects.eyebrow} title={ui.projects.title} aside={ui.projects.aside} />
+      <div className="mt-10 flex flex-wrap gap-2" role="group" aria-label={ui.projects.filter}>
         {FILTERS.map((x) => (
           <button key={x} onClick={() => setF(x)} aria-pressed={f === x}
             className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${f === x ? "border-foreground bg-foreground text-background" : "border-border hover:border-primary hover:text-primary"}`}>
-            {x}<span className={`font-mono text-xs ${f === x ? "opacity-70" : "text-muted-foreground"}`}>{count(x)}</span>
+            {label(x)}<span className={`font-mono text-xs ${f === x ? "opacity-70" : "text-muted-foreground"}`}>{count(x)}</span>
           </button>
         ))}
       </div>
@@ -672,7 +746,7 @@ function Projects() {
           <article key={p.name} style={{ animationDelay: `${n * 60}ms` }}
             className="fade-up group flex flex-col rounded-2xl border border-border bg-card p-6 transition duration-300 hover:-translate-y-1 hover:border-primary">
             <div className="flex items-baseline justify-between gap-4 font-mono text-xs">
-              <span className="text-primary">{p.categories.join(" · ")}</span>
+              <span className="text-primary">{p.categories.map((c) => ui.categories[c]).join(" · ")}</span>
               {p.year && <span className="shrink-0 text-muted-foreground">{p.year}</span>}
             </div>
             <h3 className="mt-6 text-xl font-bold tracking-tight">{p.name}</h3>
@@ -682,12 +756,12 @@ function Projects() {
               <div className="mt-auto flex gap-5 pt-6 text-sm font-semibold">
                 {p.demo && (
                   <a href={p.demo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline">
-                    Ver demo <ArrowUpRight size={15} />
+                    {ui.projects.demo} <ArrowUpRight size={15} />
                   </a>
                 )}
                 {p.code && (
                   <a href={p.code} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline">
-                    Ver código <Github size={14} />
+                    {ui.projects.code} <Github size={14} />
                   </a>
                 )}
               </div>
@@ -701,15 +775,16 @@ function Projects() {
 
 /* ───────────── contacto ───────────── */
 
-const schema = z.object({
-  name: z.string().trim().min(2, "Escribe tu nombre").max(100),
-  email: z.string().trim().email("Correo no válido").max(255),
-  message: z.string().trim().min(10, "El mensaje es muy corto").max(1000),
-});
-
 function Contact() {
+  const { ui, profile } = useContent();
+  const t = ui.contactSection;
   const [copied, setCopied] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const schema = z.object({
+    name: z.string().trim().min(2, t.errors.name).max(100),
+    email: z.string().trim().email(t.errors.email).max(255),
+    message: z.string().trim().min(10, t.errors.message).max(1000),
+  });
   const copy = async () => {
     await navigator.clipboard.writeText(profile.email);
     setCopied(true);
@@ -724,7 +799,7 @@ function Contact() {
     }
     setErrors({});
     const body = `${r.data.message}\n\n— ${r.data.name} (${r.data.email})`;
-    window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent("Proyecto — " + r.data.name)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(t.subject + r.data.name)}&body=${encodeURIComponent(body)}`;
   };
   const field = "mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-primary";
   const links = [
@@ -732,50 +807,50 @@ function Contact() {
     ...(profile.linkedin ? [{ href: profile.linkedin, label: "LinkedIn", Icon: Linkedin }] : []),
     { href: profile.credly, label: "Credly", Icon: Award },
   ];
+  const rowLink = "group flex items-center justify-between border-b border-border py-4 transition-colors hover:text-primary";
 
   return (
     <Block id="contacto">
       <div className="reveal text-center">
-        <p className="eyebrow">08 / contacto</p>
-        <h2 className="mx-auto mt-4 max-w-4xl text-5xl font-extrabold leading-[1.02] tracking-tight md:text-7xl">
-          Construyamos algo <Accent>seguro</Accent> juntos.
-        </h2>
-        <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-          Una primera conversación basta para entender tu proyecto y proponerte el camino más directo.
-        </p>
-        <a href={profile.whatsapp} target="_blank" rel="noopener noreferrer" className={`${btnPrimary} mt-9 px-8 py-4 text-base`}>
-          <MessageCircle size={20} /> Escríbeme por WhatsApp <ArrowUpRight size={18} />
-        </a>
+        <p className="eyebrow">{t.eyebrow}</p>
+        <h2 className="mx-auto mt-4 max-w-4xl text-5xl font-extrabold leading-[1.02] tracking-tight md:text-7xl"><Title parts={t.title} /></h2>
+        <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">{t.desc}</p>
+        <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <a href={profile.whatsapp} target="_blank" rel="noopener noreferrer" className={`${btnPrimary} px-8 py-4 text-base`}>
+            <MessageCircle size={20} /> {ui.whatsappCta} <ArrowUpRight size={18} />
+          </a>
+          <a href={profile.vcard} className={`${btnOutline} px-8 py-4 text-base`}>
+            <UserPlus size={20} /> {ui.saveContact}
+          </a>
+        </div>
         <p className="mt-3 font-mono text-xs text-muted-foreground">+52 {profile.phone}</p>
       </div>
 
       <div className="reveal mt-20 grid gap-12 border-t border-border pt-16 md:grid-cols-2">
         <div>
-          <h3 className="text-2xl font-bold tracking-tight">¿Prefieres correo?</h3>
-          <p className="mt-2 text-muted-foreground">Escríbeme directo o déjame tu mensaje en el formulario.</p>
+          <h3 className="text-2xl font-bold tracking-tight">{t.emailTitle}</h3>
+          <p className="mt-2 text-muted-foreground">{t.emailDesc}</p>
           <div className="mt-6 flex gap-2">
-            <a href={`mailto:${profile.email}`} className={`${btnOutline} flex-1`}><Mail size={16} /> Enviar correo</a>
-            <button onClick={copy} className={`${btnOutline} px-4`} aria-label="Copiar correo">
+            <a href={`mailto:${profile.email}`} className={`${btnOutline} flex-1`}><Mail size={16} /> {t.sendEmail}</a>
+            <button onClick={copy} className={`${btnOutline} px-4`} aria-label={t.copyEmail}>
               {copied ? <Check size={16} className="text-primary" /> : <Copy size={16} />}
             </button>
           </div>
           <p className="mt-2 break-all font-mono text-xs text-muted-foreground" aria-live="polite">
-            {copied ? "Correo copiado ✓" : profile.email}
+            {copied ? t.copied : profile.email}
           </p>
           <ul className="mt-10 border-t border-border">
             {links.map(({ href, label, Icon }) => (
               <li key={label}>
-                <a href={href} target="_blank" rel="noopener noreferrer"
-                  className="group flex items-center justify-between border-b border-border py-4 transition-colors hover:text-primary">
+                <a href={href} target="_blank" rel="noopener noreferrer" className={rowLink}>
                   <span className="inline-flex items-center gap-3 font-semibold"><Icon size={18} strokeWidth={1.5} />{label}</span>
                   <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </a>
               </li>
             ))}
             <li>
-              <a href={profile.cv} download="CV_AngelNahumTrejoOsornio.pdf"
-                className="group flex items-center justify-between border-b border-border py-4 transition-colors hover:text-primary">
-                <span className="inline-flex items-center gap-3 font-semibold"><Download size={18} strokeWidth={1.5} />Descargar CV</span>
+              <a href={profile.cv} download="CV_AngelNahumTrejoOsornio.pdf" className={rowLink}>
+                <span className="inline-flex items-center gap-3 font-semibold"><Download size={18} strokeWidth={1.5} />{ui.experience.cv}</span>
                 <ArrowDown size={16} className="transition-transform group-hover:translate-y-0.5" />
               </a>
             </li>
@@ -784,16 +859,14 @@ function Contact() {
         <form onSubmit={submit} noValidate className="space-y-4 rounded-2xl border border-border bg-card p-6">
           {(["name", "email", "message"] as const).map((k) => (
             <div key={k}>
-              <label htmlFor={k} className="font-mono text-xs text-muted-foreground">
-                {{ name: "Nombre", email: "Correo", message: "¿En qué te ayudo?" }[k]}
-              </label>
+              <label htmlFor={k} className="font-mono text-xs text-muted-foreground">{t.fields[k]}</label>
               {k === "message"
                 ? <textarea id={k} name={k} rows={5} maxLength={1000} className={field} aria-invalid={!!errors[k]} />
                 : <input id={k} name={k} type={k === "email" ? "email" : "text"} maxLength={k === "email" ? 255 : 100} className={field} aria-invalid={!!errors[k]} />}
               {errors[k] && <p className="mt-1 text-xs text-destructive">{errors[k]}</p>}
             </div>
           ))}
-          <button type="submit" className={`${btnPrimary} w-full`}>Enviar mensaje <ArrowUpRight size={16} /></button>
+          <button type="submit" className={`${btnPrimary} w-full`}>{t.submit} <ArrowUpRight size={16} /></button>
         </form>
       </div>
     </Block>
@@ -803,6 +876,8 @@ function Contact() {
 /* ───────────── footer ───────────── */
 
 function Footer() {
+  const { ui, profile } = useContent();
+  const { place, availability } = splitLocation(profile.location);
   const head = "font-mono text-xs uppercase tracking-wider text-muted-foreground";
   return (
     <footer className="border-t border-border">
@@ -813,34 +888,35 @@ function Footer() {
             <p className="mt-3 text-muted-foreground">{profile.tagline}</p>
           </div>
           <a href="#inicio" className="inline-flex items-center gap-2 self-start text-sm font-semibold hover:text-primary md:self-auto">
-            Volver arriba <ArrowUp size={16} />
+            {ui.footer.top} <ArrowUp size={16} />
           </a>
         </div>
         <div className="mt-14 grid gap-10 border-t border-border pt-10 text-sm sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <p className={head}>Contacto</p>
+            <p className={head}>{ui.footer.contact}</p>
             <ul className="mt-4 space-y-2">
               <li><a href={profile.whatsapp} target="_blank" rel="noopener noreferrer" className="hover:text-primary">WhatsApp · {profile.phone}</a></li>
               <li><a href={`mailto:${profile.email}`} className="break-all hover:text-primary">{profile.email}</a></li>
+              <li><a href={profile.vcard} className="hover:text-primary">{ui.saveContact}</a></li>
             </ul>
           </div>
           <div>
-            <p className={head}>Sede</p>
+            <p className={head}>{ui.footer.base}</p>
             <ul className="mt-4 space-y-2">
-              <li>{PLACE}</li>
-              <li className="text-muted-foreground">Proyectos remotos en todo México</li>
+              <li>{place}</li>
+              <li className="text-muted-foreground">{ui.footer.remote}</li>
             </ul>
           </div>
           <div>
-            <p className={head}>Navegación</p>
+            <p className={head}>{ui.footer.nav}</p>
             <ul className="mt-4 grid grid-cols-2 gap-2">
-              {NAV.map((n) => <li key={n.id}><a href={`#${n.id}`} className="hover:text-primary">{n.label}</a></li>)}
+              {NAV_IDS.map((id) => <li key={id}><a href={`#${id}`} className="hover:text-primary">{ui.nav[id]}</a></li>)}
             </ul>
           </div>
           <div>
-            <p className={head}>Estado</p>
+            <p className={head}>{ui.footer.status}</p>
             <ul className="mt-4 space-y-2">
-              <li className="inline-flex items-center gap-2"><span className="status-dot" aria-hidden />{AVAILABILITY || "Disponible"}</li>
+              <li className="inline-flex items-center gap-2"><span className="status-dot" aria-hidden />{availability}</li>
               <li className="font-mono text-xs text-muted-foreground">MX-AGS / 01</li>
             </ul>
           </div>
