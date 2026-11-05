@@ -21,6 +21,48 @@ export const profile = {
   stats: ["7 certificaciones", "8+ proyectos", "2° lugar Hidrotalent 2024"],
 };
 
+// Palabras que se escriben y borran en el titular del inicio.
+export const heroWords = ["seguro", "a la medida", "que escala", "para tu negocio"];
+
+// Pasos de la sección interactiva "Cómo trabajo".
+export const workflow: { step: string; title: string; desc: string; cmd: string; output: string[] }[] = [
+  {
+    step: "Diagnóstico",
+    title: "Entiendo tu operación",
+    desc: "Antes de escribir código, mapeo tus procesos y definimos qué problema vamos a resolver.",
+    cmd: "analizar --negocio",
+    output: ["procesos mapeados", "requerimientos definidos", "alcance y tiempos acordados"],
+  },
+  {
+    step: "Diseño",
+    title: "Arquitectura con sentido",
+    desc: "Modelo de datos, arquitectura y un prototipo navegable para validar antes de construir.",
+    cmd: "disenar --arquitectura",
+    output: ["modelo de datos", "prototipo navegable", "control de acceso por roles"],
+  },
+  {
+    step: "Desarrollo",
+    title: "Entregas que puedes probar",
+    desc: "Construyo por entregas cortas: frontend, backend e integraciones como WhatsApp o pagos.",
+    cmd: "npm run build",
+    output: ["frontend + backend", "integraciones conectadas", "pruebas automatizadas"],
+  },
+  {
+    step: "Seguridad",
+    title: "Auditoría antes de publicar",
+    desc: "Reviso el sistema como lo haría un atacante, siguiendo el OWASP Top 10.",
+    cmd: "audit --owasp-top-10",
+    output: ["inyección SQL: protegido", "XSS: protegido", "control de acceso: protegido"],
+  },
+  {
+    step: "Despliegue",
+    title: "En producción y vigilado",
+    desc: "Publicación en servidor propio con dominio, SSL y monitoreo, lista para crecer.",
+    cmd: "deploy --prod",
+    output: ["VPS + EasyPanel", "dominio y SSL", "monitoreo activo"],
+  },
+];
+
 export type ServiceIcon = "code" | "globe" | "database" | "shield" | "wrench" | "cpu";
 export const services: { icon: ServiceIcon; title: string; desc: string }[] = [
   { icon: "code", title: "Creación de software", desc: "Sistemas a la medida, CRM/ERP y plataformas SaaS." },
