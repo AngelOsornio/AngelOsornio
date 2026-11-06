@@ -1,126 +1,79 @@
-# Angelosornio
+<div align="center">
 
-Crea un sitio web personal de una sola página (one-page) en español para presentarme como profesional. Debe ser minimalista, intuitivo, rápido y totalmente responsive (se verá mucho desde celular, porque la gente llegará escaneando mi tarjeta de presentación).
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=26&duration=3000&pause=1200&color=3DDC97&center=true&vCenter=true&width=520&lines=%3E+dev+%2B+sec_;Construyo+software+seguro;del+c%C3%B3digo+a+la+red." alt="> dev + sec" />
 
-## Quién soy
-- Nombre: Angel Nahum Trejo Osornio
-- Título: Ingeniero en Ciberseguridad y Desarrollo de Software
-- Teléfono y WhatsApp: 771 122 1326 (México, +52)
-- Correo: angelnahumtrejoosornio@gmail.com
-- Ubicación: Aguascalientes, México — disponible para trabajo remoto y proyectos freelance
-- Idiomas: Español (nativo), Inglés C2 (certificado Oxford)
-- Frase corta: "Construyo software seguro: del código a la red."
+# Angel Nahum Trejo Osornio
 
-## Identidad visual (debe coincidir con mi tarjeta de presentación)
-- Fondo principal gris grafito #121417, secciones alternas en blanco cálido #FAFAF8
-- Color de acento verde menta #3DDC97 sobre fondo oscuro; verde #0E7A55 sobre fondo claro
-- Tipografías: Manrope (títulos y texto) y JetBrains Mono (etiquetas, detalles técnicos, fechas)
-- Logo: monograma "AT" dentro de un cuadro con borde fino del color de acento
-- Detalle de marca: el texto "> dev + sec" con un cursor de terminal parpadeante
-- Estilo: mucho espacio en blanco, líneas finas, iconos de trazo simple. Nada de degradados, emojis, sombras exageradas ni fotos de stock genéricas
-- Modo oscuro por defecto, con interruptor a modo claro
+**Ingeniero en Ciberseguridad y Desarrollo de Software** · Aguascalientes, México 🇲🇽
+Full Stack · Páginas web · Automatización con IA
 
-## Estructura (en este orden)
+[![Portafolio](https://img.shields.io/badge/Portafolio-angelosornio.lovable.app-3DDC97?style=for-the-badge&labelColor=121417)](https://angelosornio.lovable.app/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Angel_Trejo_Osornio-3DDC97?style=for-the-badge&logo=linkedin&logoColor=3DDC97&labelColor=121417)](http://www.linkedin.com/in/angel-trejo-osornio-485685334)
+[![Email](https://img.shields.io/badge/Email-Escríbeme-3DDC97?style=for-the-badge&logo=gmail&logoColor=3DDC97&labelColor=121417)](mailto:angelnahumtrejoosornio@gmail.com)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-771_122_1326-3DDC97?style=for-the-badge&logo=whatsapp&logoColor=3DDC97&labelColor=121417)](https://wa.me/527711221326)
+[![Instagram](https://img.shields.io/badge/Instagram-__angelosornio-3DDC97?style=for-the-badge&logo=instagram&logoColor=3DDC97&labelColor=121417)](https://instagram.com/_angelosornio)
 
-1. **Navegación fija** — logo "AT" a la izquierda; enlaces: Sobre mí, Experiencia, Proyectos, Formación, Contacto. En móvil, menú hamburguesa.
+</div>
 
-2. **Inicio (hero)** — nombre grande, título, frase corta y dos botones: "Escríbeme por WhatsApp" (principal) y "Ver proyectos". Una línea pequeña en monoespaciada: "Aguascalientes, MX · Disponible para proyectos". Foto profesional: [FOTO].
+---
 
-3. **Sobre mí** — 
-"Soy estudiante de Ingeniería en Seguridad Informática y Desarrollo de Software en Global University (egreso en diciembre de 2026). Desarrollo aplicaciones web de punta a punta, desde la base de datos y el backend hasta el despliegue en producción, con la seguridad como parte del diseño y no como un agregado. He cofundado una startup de software, desarrollado plataformas SaaS en producción y realizado auditorías de seguridad siguiendo la metodología de un pentest profesional."
-   Debajo, 3 cifras destacadas en monoespaciada: "7 certificaciones" · "8+ proyectos" · "2° lugar Hidrotalent 2024".
+### `> whoami`
 
-4. **Servicios** — tarjetas con icono y una línea de descripción:
-   - Creación de software — sistemas a la medida, CRM/ERP y plataformas SaaS
-   - Páginas web — sitios y aplicaciones web modernas, rápidas y responsive
-   - Bases de datos — diseño, modelado, migración y optimización
-   - Ciberseguridad — pentesting web, auditorías y buenas prácticas OWASP
-   - Mantenimiento — soporte, actualización y despliegue de sistemas existentes
-   - Hardware — diagnóstico, configuración de equipos y redes
+Desarrollo aplicaciones web de punta a punta con la seguridad como base, no como añadido. Hoy me enfoco en **crear páginas web para negocios y profesionistas** y en **automatizar procesos con agentes de IA** (citas, WhatsApp, CRM).
 
-5. **Conocimientos / Stack** — agrupados en categorías con etiquetas tipo "chip" en fuente monoespaciada:
-   - Lenguajes: Python, Java, TypeScript, JavaScript, C, C++, SQL
-   - Frontend: React, Angular, Vite, Tailwind CSS, shadcn/ui, HTML, CSS
-   - Backend y datos: Node.js, Express, Spring Boot, Supabase, PostgreSQL, SQL Server
-   - Ciberseguridad: Pentesting web (SQLi, XSS, IDOR), OWASP Top 10, Kali Linux, SQLmap, redes Cisco
-   - DevOps e infraestructura: Docker, k3s, Ansible, VPS, EasyPanel, gestión de dominios y DNS, Git/GitHub
-   - Automatización e IA: n8n, automatizaciones de WhatsApp, TensorFlow, Keras, Google Colab
-   - Blockchain: Solidity, Hardhat, Remix IDE, Hyperledger Fabric
-   - Metodologías: Agile, Scrum, Kanban, Design Thinking
-   - [TECNOLOGÍAS DE ASTRA]
+- Ingeniería en Desarrollo de Software y Ciberseguridad — Global University
+- **1er lugar** Hackathon 2024 · **3er lugar** Hackathon 2023
+- Español nativo · Inglés C2 (Oxford)
+- Disponible para **trabajo remoto y proyectos freelance**
 
-6. **Experiencia** — línea de tiempo vertical. Cada puesto: empresa, cargo, fechas y logros concretos.
-   - **Padelize** — Desarrollador Full Stack — [FECHA INICIO] – actualidad
-     · Desarrollo y mantenimiento de una plataforma SaaS para la gestión de clubes de pádel: clientes, reservas y cobros.
-     · Migración de la plataforma a infraestructura propia: despliegue en VPS con EasyPanel, configuración de dominio y enrutamiento SPA.
-     · Stack: React, TypeScript, Supabase (PostgreSQL), Tailwind CSS.
-   - **SoftMex** — Cofundador y Desarrollador de Software — [FECHA INICIO] – [FECHA FIN]
-     · Cofundador de la startup y parte del equipo que desarrolla Astra, un CRM/ERP para negocios.
-     · [LOGROS EN ASTRA]
-     · Actualmente a cargo de la implementación piloto de Astra (agenda y automatizaciones de WhatsApp) para un centro de ejercicio en Aguascalientes.
-   - **Grupo Zeta / ZPremia (proyecto con Global University)** — Desarrollador Frontend, Equipo ORPEL — 2026
-     · Pantallas en Angular 17 para un sistema de gestión de almacén y contenerización con Docker sobre arquitectura on-premise.
+---
 
-7. **Proyectos** — cuadrícula de tarjetas. Cada una con imagen o captura, nombre, año, descripción de una o dos líneas, tecnologías (chips) y botones "Ver demo" / "Ver código" cuando existan. Filtro por categoría: Todos, Web, Software, Seguridad, IA.
-   - **Padelize** (Software, Web) — SaaS para gestión de clubes de pádel con clientes, reservas y cobros, desplegado en producción. React, TypeScript, Supabase, EasyPanel. [ENLACE]
-   - **Astra** (Software) — CRM/ERP con agenda y automatizaciones de WhatsApp. [TECNOLOGÍAS DE ASTRA]
-   - **SGA — Sistema de Gestión de Almacén** (Web, 2026) — Recepción, inventario y traspasos para Grupo Zeta / ZPremia. Angular 17, Java 21, Spring Boot 3, SQL Server 2022, Docker.
-   - **Auditoría de Seguridad — BadStore** (Seguridad, 2026) — Pentest académico: exposición de datos sensibles e inyección SQL que permitió extraer la base de usuarios y descifrar la contraseña de administrador, documentado con metodología profesional. Kali Linux, SQLmap, OWASP Top 10.
-   - **Clasificador de Imágenes con CNN** (IA, 2026) — Red neuronal convolucional con 92.6% de accuracy sobre el dataset Animals-10, con balanceo por undersampling. Python, TensorFlow, Keras.
-   - **Registro Metodológico de Métricas Lingüísticas** (Web, 2026) — Herramienta académica con datos anonimizados (UUID) conforme a la LFPDPPP y control de acceso por roles. React 18, Node.js, Express, k3s, Ansible.
-   - **Cifrado César / Atbash** (Seguridad, Web) — App web de cifrado y descifrado publicada en GitHub Pages. HTML, CSS, JavaScript. [ENLACE A GITHUB PAGES]
-   - **Hidrotalent — 2° lugar** (Nov. 2024) — Propuesta de software de escaneo 3D para fabricar prótesis de bajo costo para personas de escasos recursos; segundo lugar en el concurso de innovación de Aguascalientes.
+### `> experiencia`
 
-8. **Formación** —
-   - Ingeniería en Seguridad Informática y Desarrollo de Software — Global University — Ene 2023 – Dic 2026
-   - Reconocimiento: 2° lugar, Hidrotalent 2024 (concurso de innovación, Aguascalientes)
+| Rol | Dónde | Qué hago / hice |
+|---|---|---|
+| **Full Stack Developer** | BIY · dic 2025 – hoy | Sistema de gestión de clientes con Flask + SQLite |
+| **Software Developer / Research Support** | ANPSIA | Desarrollo de software y apoyo en investigación |
+| **Developer · Cofundador** | SoftMex | Astra, un CRM/ERP; hoy llevo la implementación para Inbaku Aguascalientes (agenda + agentes de WhatsApp) |
+| **Developer** | Padelize | Desarrollo de software |
+| **Web Developer** | Markaf · 2022 – 2023 | Sitios y desarrollo web |
 
-9. **Certificaciones** — tarjetas pequeñas con nombre, institución y fecha, más un botón general "Ver credenciales en Credly" que abra https://www.credly.com/users/trejo-osornio-angel-nahum
-   - Introducción a la Ciberseguridad — Cisco — Feb 2026
-   - Seguridad de Terminales — Cisco — Mar 2026
-   - Soporte y Seguridad de Red — Cisco — Dic 2025
-   - Direccionamiento de Red y Solución de Problemas Básicos — Cisco — Dic 2025
-   - Dispositivos de Red y Configuración Inicial — Cisco — Dic 2025
-   - Networking Basics — Cisco — Nov 2025
-   - Inglés C2 — Oxford — Dic 2025
+---
 
-10. **Contacto** — sección destacada con el título "¿Tienes un proyecto en mente?":
-   - Botón grande de WhatsApp que abra https://wa.me/527711221326 con el mensaje prellenado "Hola Angel, vi tu página y me interesa…"
-   - Botón de correo (mailto:angelnahumtrejoosornio@gmail.com) y botón para copiar el correo al portapapeles con confirmación
-   - Formulario simple: nombre, correo, mensaje (con validación)
-   - Enlaces a GitHub (https://github.com/AngelOsornio), Credly y [LINKEDIN]
-   - Botón "Descargar CV" (PDF): [ARCHIVO CV]
+### `> proyectos`
 
-11. **Pie de página** — monograma, "© 2026 Angel Nahum Trejo Osornio", enlaces rápidos.
+- **Plataforma de citas con IA** *(en construcción)* — SaaS multitenant para que cualquier negocio gestione sus citas con agentes de IA.
+- **Astra × Inbaku** — CRM/ERP con agenda y automatización de WhatsApp para un centro de ejercicio, con meta de escalar a nivel nacional.
+- **Origen** — Marketplace social sin fines de lucro para artesanos de Aguascalientes.
+- **Sitios web profesionales** — Páginas rápidas, responsive y listas para celular para profesionistas y negocios locales.
 
-## Funcionalidad y detalles
-- Botón flotante de WhatsApp siempre visible en móvil
-- Desplazamiento suave entre secciones y resaltado de la sección activa en el menú
-- Animaciones sutiles de aparición al hacer scroll (respetando prefers-reduced-motion)
-- Accesible: buen contraste, textos alternativos, navegable con teclado
-- SEO básico: título, meta descripción, Open Graph con imagen para compartir en WhatsApp/LinkedIn, favicon con el monograma "AT"
-- Carga rápida, sin librerías innecesarias
-- Todo el contenido (experiencia, proyectos, certificados, stack) en un archivo de datos fácil de editar, para agregar elementos sin tocar el diseño
+---
 
-This project was built with [Lovable](https://lovable.dev).
+### `> stack`
 
-**Live app**: https://angelosornio.lovable.app
+<p>
+<img src="https://img.shields.io/badge/Python-121417?style=flat-square&logo=python&logoColor=3DDC97" />
+<img src="https://img.shields.io/badge/Flask-121417?style=flat-square&logo=flask&logoColor=3DDC97" />
+<img src="https://img.shields.io/badge/JavaScript-121417?style=flat-square&logo=javascript&logoColor=3DDC97" />
+<img src="https://img.shields.io/badge/TypeScript-121417?style=flat-square&logo=typescript&logoColor=3DDC97" />
+<img src="https://img.shields.io/badge/React-121417?style=flat-square&logo=react&logoColor=3DDC97" />
+<img src="https://img.shields.io/badge/Tailwind-121417?style=flat-square&logo=tailwindcss&logoColor=3DDC97" />
+<img src="https://img.shields.io/badge/HTML5-121417?style=flat-square&logo=html5&logoColor=3DDC97" />
+<img src="https://img.shields.io/badge/CSS3-121417?style=flat-square&logo=css3&logoColor=3DDC97" />
+<img src="https://img.shields.io/badge/SQLite-121417?style=flat-square&logo=sqlite&logoColor=3DDC97" />
+<img src="https://img.shields.io/badge/Supabase-121417?style=flat-square&logo=supabase&logoColor=3DDC97" />
+<img src="https://img.shields.io/badge/Git-121417?style=flat-square&logo=git&logoColor=3DDC97" />
+<img src="https://img.shields.io/badge/GitHub-121417?style=flat-square&logo=github&logoColor=3DDC97" />
+<img src="https://img.shields.io/badge/Lovable-121417?style=flat-square&logoColor=3DDC97" />
+<img src="https://img.shields.io/badge/WhatsApp_Automation-121417?style=flat-square&logo=whatsapp&logoColor=3DDC97" />
+</p>
 
-## Build with Lovable
+**Aprendiendo ahora:** RAG con Flask · Azure (AI-900) · GitHub Actions · GitHub Copilot · Machine Learning (Kaggle)
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/ae0975f9-15e6-4b14-9334-4dbe1cee7f04).
+---
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+<div align="center">
 
-## Development
+`> ¿Tienes un proyecto en mente?` **[Hablemos →](https://wa.me/527711221326)**
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
-```
+</div>
