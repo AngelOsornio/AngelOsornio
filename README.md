@@ -32,7 +32,7 @@ Desarrollo aplicaciones web de punta a punta con la seguridad como base, no como
 
 | Rol | Dónde | Qué hago / hice |
 |---|---|---|
-| **Full Stack Developer** | BIY · dic 2025 – hoy | Sistema de gestión de clientes con Flask + SQLite |
+| **Full Stack Developer** | BIY · dic 2025 | Sistema de gestión de clientes con Flask + SQLite |
 | **Software Developer / Research Support** | ANPSIA | Desarrollo de software y apoyo en investigación |
 | **Developer · Cofundador** | SoftMex | Astra, un CRM/ERP; hoy llevo la implementación para Inbaku Aguascalientes (agenda + agentes de WhatsApp) |
 | **Developer** | Padelize | Desarrollo de software |
